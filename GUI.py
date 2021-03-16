@@ -41,7 +41,7 @@ class GUI:
 
     def send(self):
         print([(item, TIMES[item]) for item in self.move_list])
-        return
+        pass
         return [(item, TIMES[item]) for item in self.move_list]
 
     def left_click(self, button):
