@@ -5,12 +5,13 @@ from move_car_auto import car_move_auto
 LEFT = 'a'
 RIGHT = 'd'
 FORWARD = 'w'
+BACKWARD = 's'
 O_UP = (0, -1)
 O_DOWN = (0, 1)
 O_LEFT = (-1, 0)
 O_RIGHT = (1, 0)
 SIZE = 8
-START = (SIZE - 1, SIZE - 1)
+START = (0, SIZE - 1)
 DIRS = [O_UP, O_LEFT, O_DOWN, O_RIGHT]
 TIMES = {LEFT: 1, RIGHT: 1, FORWARD: 1}
 
@@ -38,7 +39,7 @@ class GUI:
                 button.config(font=("Courier", 20))
                 button.bind("<Button-1>", self.left_click(button))
                 button.bind("<Button-3>", self.right_click(button))
-                if i==j==l-1:
+                if (j,i) == START:
                     button.config(background="purple")
 
         self.root.mainloop()
@@ -68,7 +69,7 @@ class GUI:
             x = int(button["text"]) % SIZE
             y = int(button["text"]) // SIZE
             dir = (x - self.last_place[0], y - self.last_place[1])
-            if dir[0] **2 + dir[1] ** 2 == 1:
+            if dir[0] ** 2 + dir[1] ** 2 == 1:
                 while dir != self.orientation:
                     self.move_list.append(LEFT)
                     ind = DIRS.index(self.orientation)
@@ -80,7 +81,14 @@ class GUI:
                     self.move_list.pop()
                     self.move_list.pop()
                     self.move_list.append(RIGHT)
-                self.move_list.append(FORWARD)
+                    self.move_list.append(FORWARD)
+                elif len(self.move_list) >= 2 and self.move_list[-1] == self.move_list[-2] == LEFT:
+                    self.move_list.pop()
+                    self.move_list.pop()
+                    self.move_list.append(BACKWARD)
+                    self.orientation = (-self.orientation[0], -self.orientation[1])
+                else:
+                    self.move_list.append(FORWARD)
                 self.move_label["text"] = str(self.move_list)
             return
 
