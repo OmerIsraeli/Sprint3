@@ -10,6 +10,7 @@ O_RIGHT = (1, 0)
 SIZE = 8
 START = (SIZE - 1, SIZE - 1)
 DIRS = [O_UP, O_LEFT, O_DOWN, O_RIGHT]
+TIMES = {LEFT: 1, RIGHT: 1, FORWARD: 1}
 
 
 class GUI:
@@ -24,6 +25,7 @@ class GUI:
         self.grid_frame = tk.Frame(master=self.root, background="red")
         self.grid_frame.pack()
         self.send = tk.Button(master=self.root, text="GO!", command=self.send)
+        self.send.pack()
         l = SIZE
         for i in range(l):
             for j in range(l):
@@ -38,7 +40,9 @@ class GUI:
         self.root.mainloop()
 
     def send(self):
-        self.translate()
+        print([(item, TIMES[item]) for item in self.move_list])
+        return
+        return [(item, TIMES[item]) for item in self.move_list]
 
     def left_click(self, button):
         def inner(e):
