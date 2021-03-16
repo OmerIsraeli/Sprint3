@@ -66,5 +66,6 @@ def move_auto(key,timee):
     ser.write(STOP.encode('utf-8'))
 
 if __name__ == '__main__':
+    gui = GUI()
     car_move_auto([['d',1],['w',1],['s',1],['d',1],['a',1]])
 

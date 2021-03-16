@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from move_car_auto import car_move_auto
+
 LEFT = 'a'
 RIGHT = 'd'
 FORWARD = 'w'
@@ -19,8 +21,8 @@ class GUI:
         self.orientation = O_UP
         self.move_list = []
         self.root = tk.Tk()
-        self.root.title("Tsevet Kaplan the nodrim")
-        self.move_label = tk.Label(master=self.root, text="Hi")
+        self.root.title("Kaplan's Killing Machine")
+        self.move_label = tk.Label(master=self.root, text="")
         self.move_label.pack()
         self.grid_frame = tk.Frame(master=self.root, background="red")
         self.grid_frame.pack()
@@ -42,9 +44,10 @@ class GUI:
         self.root.mainloop()
 
     def send(self):
-        print([(item, TIMES[item]) for item in self.move_list])
-        pass
-        return [(item, TIMES[item]) for item in self.move_list]
+        # print([(item, TIMES[item]) for item in self.move_list])
+        # pass
+        ins = [('w', 1)]+[(item, TIMES[item]) for item in self.move_list]
+        car_move_auto(ins)
 
     def left_click(self, button):
         def inner(e):
