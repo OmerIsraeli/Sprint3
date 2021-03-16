@@ -1,16 +1,13 @@
 import time
 import serial
 import keyboard
-import pyautogui
 # from numba import
-from GUI import GUI
 
 ser = serial.Serial('COM3', 9600)
 STOP = '0'
 
 LEDS = 't'
 
-pyautogui.FAILSAFE=False
 # flag = False
 
 def car_move():

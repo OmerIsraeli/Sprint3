@@ -13,7 +13,7 @@ O_RIGHT = (1, 0)
 SIZE = 8
 START = (0, SIZE - 1)
 DIRS = [O_UP, O_LEFT, O_DOWN, O_RIGHT]
-TIMES = {LEFT: 1.1, RIGHT: 1.22, FORWARD: 1,BACKWARD: 1}
+TIMES = {LEFT: 1.1, RIGHT: 1.22, FORWARD: 8/11, BACKWARD: 8/11}
 
 
 class GUI:
@@ -23,6 +23,8 @@ class GUI:
         self.move_list = []
         self.root = tk.Tk()
         self.root.title("Kaplan's Killing Machine")
+        self.reset = tk.Button(master=self.root,text="Reset Path", command=self.reset_press)
+        self.reset.pack()
         self.move_label = tk.Label(master=self.root, text="")
         self.move_label.pack()
         self.grid_frame = tk.Frame(master=self.root, background="red")
@@ -39,21 +41,31 @@ class GUI:
                 button.config(font=("Courier", 28))
                 button.bind("<Button-1>", self.left_click(button))
                 button.bind("<Button-3>", self.right_click(button))
-                if (j,i) == START:
+                if (j, i) == START:
                     button.config(background="purple")
 
         self.root.mainloop()
 
-    def send(self):
-        ins = [(item, TIMES[item]) for item in self.move_list]
-        # print(ins)
-        # for i in range(len(ins)):
-        #     if i<len(ins)-1  ins[i][0] == FORWARD:
-        # DONT TOUCH OMER YAMANYAK
+    def reset_press(self):
+        self.move_list = []
+        self.move_label["text"] = "PATH HAS BEEN RESET"
+        for widget in self.grid_frame.winfo_children():
+            if widget["background"] != "purple":
+                widget.config(background="lightgrey")
 
-        print(ins)
-        ins = [('w', 1)]+ins
-        # car_move_auto(ins)
+    def send(self):
+        ins = [[item, TIMES[item]] for item in self.move_list]
+        # print(ins)
+        i = 0
+        while i < len(ins):
+            if i < len(ins)-1 and ins[i][0] == ins[i + 1][0] == FORWARD:
+                ins[i][1] += ins[i + 1][1]
+                del ins[i+1]
+            else:
+                i+=1
+        # print(ins)
+        ins = [('w', 1)] + ins
+        # car_move_auto(ins) #TODO: uncomment this :)
 
     def left_click(self, button):
         def inner(e):
@@ -66,6 +78,7 @@ class GUI:
             #     button.config(background="green")
             elif bg == "green":
                 button.config(background="red")
+
         return inner
 
     def right_click(self, button):
