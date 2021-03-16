@@ -3,6 +3,7 @@ import serial
 import keyboard
 import pyautogui
 # from numba import
+from GUI import GUI
 
 ser = serial.Serial('COM3', 9600)
 STOP = '0'
@@ -67,5 +68,5 @@ def move_auto(key,timee):
 
 if __name__ == '__main__':
     gui = GUI()
-    car_move_auto([['d',1],['w',1],['s',1],['d',1],['a',1]])
+
 
