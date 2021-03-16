@@ -1,8 +1,8 @@
 import tkinter as tk
 
-LEFT = 'l'
-RIGHT = 'r'
-FORWARD = 'f'
+LEFT = 'a'
+RIGHT = 'd'
+FORWARD = 'w'
 O_UP = (0, -1)
 O_DOWN = (0, 1)
 O_LEFT = (-1, 0)
@@ -36,6 +36,8 @@ class GUI:
                 button.config(font=("Courier", 20))
                 button.bind("<Button-1>", self.left_click(button))
                 button.bind("<Button-3>", self.right_click(button))
+                if i==j==l-1:
+                    button.config(background="purple")
 
         self.root.mainloop()
 
@@ -63,19 +65,20 @@ class GUI:
             x = int(button["text"]) % SIZE
             y = int(button["text"]) // SIZE
             dir = (x - self.last_place[0], y - self.last_place[1])
-            while dir != self.orientation:
-                self.move_list.append(LEFT)
-                ind = DIRS.index(self.orientation)
-                self.orientation = DIRS[(ind + 1) % len(DIRS)]
+            if dir[0] **2 + dir[1] ** 2 == 1:
+                while dir != self.orientation:
+                    self.move_list.append(LEFT)
+                    ind = DIRS.index(self.orientation)
+                    self.orientation = DIRS[(ind + 1) % len(DIRS)]
+                    self.last_place = (x, y)
                 self.last_place = (x, y)
-            self.last_place = (x, y)
-            if len(self.move_list) >= 3 and self.move_list[-1] == self.move_list[-2] == self.move_list[-3] == LEFT:
-                self.move_list.pop()
-                self.move_list.pop()
-                self.move_list.pop()
-                self.move_list.append(RIGHT)
-            self.move_list.append(FORWARD)
-            self.move_label["text"] = str(self.move_list)
+                if len(self.move_list) >= 3 and self.move_list[-1] == self.move_list[-2] == self.move_list[-3] == LEFT:
+                    self.move_list.pop()
+                    self.move_list.pop()
+                    self.move_list.pop()
+                    self.move_list.append(RIGHT)
+                self.move_list.append(FORWARD)
+                self.move_label["text"] = str(self.move_list)
             return
 
         return inner
